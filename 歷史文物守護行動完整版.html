@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>歷史文物守護行動｜五上社會冒險</title>
+  <style>
+    :root{--ink:#17324d;--sea:#287a75;--coral:#c75b43;--gold:#d3a23f;--paper:#f7f1e3;--cream:#fffaf0;--night:#10273b;--ok:#23724f;--bad:#9f3b36;--shadow:0 12px 30px #10273b22}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    html{background:#0e2b3c} body{margin:0;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:radial-gradient(circle at 10% 10%,#2d7d78 0 2px,transparent 3px),linear-gradient(155deg,#0e2b3c,#17465a);min-height:100vh}
+    button{font:inherit} button:focus-visible,.level:focus-visible{outline:4px solid #ffe08a;outline-offset:3px}
+    .shell{max-width:1120px;margin:auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;color:white;margin-bottom:14px}
+    .brand{display:flex;gap:12px;align-items:center}.seal{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:var(--night);font-size:26px;box-shadow:inset 0 0 0 4px #fff6}
+    h1,h2,h3{font-family:Georgia,"Noto Serif TC","PMingLiU",serif;margin-top:0} h1{font-size:clamp(1.15rem,3vw,1.8rem);margin:0}.sub{opacity:.8;font-size:.85rem}
+    .tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.mini{border:1px solid #fff8;background:#fff1;color:inherit;border-radius:999px;padding:8px 12px;cursor:pointer}
+    main{background:var(--paper);border:1px solid #e6d8b8;border-radius:22px;box-shadow:var(--shadow);min-height:680px;overflow:hidden;position:relative}
+    main:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;background:repeating-linear-gradient(2deg,transparent 0 8px,#8b6d3b12 9px)}
+    .screen{position:relative;padding:clamp(22px,5vw,54px);animation:arrive .35s ease both}@keyframes arrive{from{opacity:0;transform:translateY(8px)}}
+    .eyebrow{color:var(--coral);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center;min-height:560px}
+    .hero h2{font-size:clamp(2.3rem,7vw,5.5rem);line-height:.98;margin:.15em 0}.hero p{font-size:1.12rem;line-height:1.8;max-width:45rem}
+    .artifact-art{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:clamp(5rem,15vw,10rem);background:radial-gradient(circle,#fff9 0 32%,transparent 33%),conic-gradient(from 20deg,#d3a23f,#287a75,#c75b43,#d3a23f);border:12px solid #fff8;box-shadow:var(--shadow);transform:rotate(3deg)}
+    .primary,.secondary,.answer{border:0;border-radius:13px;min-height:48px;padding:12px 18px;font-weight:800;cursor:pointer;transition:.15s transform,.15s filter}.primary{background:var(--coral);color:white;box-shadow:0 5px 0 #813725}.secondary{background:white;color:var(--ink);border:2px solid #cbbd9e}.primary:hover,.secondary:hover,.answer:hover{transform:translateY(-2px);filter:brightness(1.04)}
+    .map-head,.row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.map{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}.level{border:2px solid #d9c9a8;border-radius:16px;background:#fffaf0;padding:18px;text-align:left;color:var(--ink);cursor:pointer;min-height:178px;position:relative}.level strong{font-family:Georgia,"Noto Serif TC",serif;font-size:1.18rem;display:block;margin:8px 0}.level .num{font-size:.8rem;font-weight:900;color:var(--coral)}.level.done{border-color:var(--sea);background:#eaf7f3}.level.current{border-color:var(--gold);box-shadow:0 0 0 4px #d3a23f33}.level.locked{filter:grayscale(1);opacity:.52;cursor:not-allowed}.tag{display:inline-block;border-radius:999px;background:#e7dfcc;padding:5px 9px;font-size:.8rem;font-weight:800}
+    .panel{background:#fffaf2;border:2px solid #d8c9a9;border-radius:18px;padding:20px;box-shadow:var(--shadow)}.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.dialogue{font-size:1.14rem;line-height:1.75;border-left:6px solid var(--gold)}.speaker{font-weight:900;color:var(--sea);display:block;margin-bottom:5px}
+    .item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:20px 0}.item{background:white;border:2px solid #d7c7a7;border-radius:15px;padding:15px;cursor:pointer;text-align:left}.item.selected{border-color:var(--sea);box-shadow:0 0 0 4px #287a7533}.item b{display:block;margin:7px 0}.item small{line-height:1.45;display:block}
+    .spots{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}.spot{min-height:250px;background:linear-gradient(135deg,#fffaf0,#e7f4f0);border:2px dashed #a6936e;border-radius:18px;padding:20px;display:flex;flex-direction:column;justify-content:space-between}.spot.open{border-style:solid;border-color:var(--sea)}.spot-icon{font-size:3rem}.clue{background:#fff3c7;border-left:5px solid var(--gold);padding:12px;margin-top:12px;line-height:1.6}
+    .battle-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:22px}.enemy{background:linear-gradient(160deg,#153b50,#10273b);color:white;text-align:center;border-radius:20px;padding:22px}.enemy-icon{font-size:6rem;filter:drop-shadow(0 8px 8px #0006)}.hearts{font-size:1.45rem;letter-spacing:3px}.bar{height:14px;border-radius:20px;background:#0002;overflow:hidden;margin:7px 0 16px}.fill{height:100%;width:100%;background:linear-gradient(90deg,var(--coral),var(--gold));transition:width .35s}.battle-card{background:#fffaf0;border:2px solid #d8c8a8;border-radius:20px;padding:22px}.question{font-size:1.24rem;line-height:1.55}.answers{display:grid;gap:10px;margin:16px 0}.answer{text-align:left;background:white;color:var(--ink);border:2px solid #d8c8a8}.answer.correct{background:#ddf5e8;border-color:var(--ok)}.answer.wrong{background:#f9dfdc;border-color:var(--bad)}.status{min-height:65px;padding:12px 14px;background:#fff2c8;border-left:5px solid var(--gold);line-height:1.5}.battle-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .reward{text-align:center;max-width:760px;margin:auto}.artifact-card{margin:22px auto;max-width:580px;background:#fffaf0;border:3px double var(--gold);padding:25px;border-radius:18px}.big{font-size:5rem}.fact{line-height:1.75;text-align:left;background:#eef8f5;padding:15px;border-radius:12px}
+    .finale{background:linear-gradient(145deg,#fff8df,#e6f4ef);border:3px double var(--gold);padding:24px;border-radius:18px;line-height:1.8}.feedback-box{margin-top:22px;background:white;border:2px solid #d8c8a8;border-radius:18px;padding:20px}.feedback-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.feedback-buttons button.chosen{background:var(--sea);color:white;border-color:var(--sea)}
+    .progress{display:flex;gap:5px;align-items:center}.dot{width:26px;height:7px;border-radius:8px;background:#ffffff44}.dot.on{background:var(--gold)}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0d2638;color:white;padding:12px 18px;border-radius:12px;z-index:5;box-shadow:var(--shadow)}
+    body.large{font-size:19px}body.large .screen{max-width:1050px;margin:auto}
+    @media(max-width:820px){.hero,.battle-grid{grid-template-columns:1fr}.hero .artifact-art{max-width:310px;justify-self:center}.map{grid-template-columns:repeat(2,1fr)}.enemy-icon{font-size:4rem}.enemy{padding:14px}.screen{padding:22px}.hero{min-height:auto}}
+    @media(max-width:520px){.map,.spots,.two,.feedback-buttons{grid-template-columns:1fr}.level{min-height:130px}header{align-items:flex-start}.brand .sub{display:none}.progress{display:none}.screen{padding:17px}main{border-radius:15px}.question{font-size:1.08rem}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><div class="seal">文</div><div><h1>歷史文物守護行動</h1><div class="sub">康軒五上社會・八章完整冒險</div></div></div>
+      <div class="tools"><div class="progress" id="progress" aria-label="關卡進度"></div><button class="mini" id="largeBtn" type="button">放大文字</button><button class="mini" id="homeBtn" type="button">關卡地圖</button></div>
+    </header>
+    <main id="app" tabindex="-1"></main>
+  </div>
+  <div class="toast" id="toast" hidden role="status"></div>
+<script>
+"use strict";
+const levels=[
+ {title:"海上十字路口",unit:"臺灣的地理位置與文化",icon:"🧭",enemy:"航線迷霧",enemyIcon:"🌫️",artifact:"古航海圖",artifactIcon:"🗺️",card:"航海羅盤",intro:["緊急！典藏庫的八件核心文物被『抹除者』打散了。牠認為歷史只需要一個答案。","第一張古航海圖失去方向。找回臺灣的位置線索，才能啟動守護航線。"],spots:[{t:"世界地圖桌",i:"🌏",d:"觀察臺灣與亞洲、太平洋的位置。",c:"臺灣位在亞洲東部、太平洋西側，鄰近東亞與東南亞的海上路線。"},{t:"港口望遠鏡",i:"🔭",d:"看看船隻與文化如何往來。",c:"海洋讓人、貨物與文化交流；島嶼不是孤立，而是連接各地。"}],fact:"古航海圖能顯示不同時代的人如何認識海洋與航線。地圖也是理解交流的重要證據。",outro:"第一條航線亮起，但抹除者讓城市裡的人忘了如何一起生活。下一件文物正在法治廣場呼救！",qs:[
+  ["臺灣的相對位置最適合怎麼說？",["亞洲東部、太平洋西側","歐洲西部、大西洋東側","非洲中央、沒有海洋","北極圈內"],0,"先找洲與海洋。","臺灣位在亞洲東部、太平洋西側。"],
+  ["臺灣四面環海，最容易促成哪一件事？",["完全不與外界接觸","海上交通與文化交流","所有地方氣候相同","只能發展畜牧"],1,"想想船可以帶來什麼。","海洋能連接人群、商品與文化。"],
+  ["要說明臺灣為何成為往來據點，哪項證據最有力？",["它位在重要海上路線附近","島上有很多便利商店","每個人都住在港口","臺灣沒有山"],0,"題目在問位置。","地理位置使臺灣容易連接周邊區域。"],
+  ["文化交流後，最可能出現什麼現象？",["飲食、語言與習俗變得更多元","每個地方完全一樣","所有舊文化立刻消失","海洋不再存在"],0,"交流通常帶來新的元素。","交流會讓生活文化呈現多元樣貌。"],
+  ["研究古代海上往來，哪一組資料最適合？",["航海圖、港口遺跡與交易紀錄","今天的天氣預報","同學的身高表","校園午餐菜單"],0,"找和航海、交易直接相關的證據。","多種歷史證據可以互相補充。"],
+  ["小守護員對『島嶼』最合理的理解是？",["島嶼可以透過海洋連結世界","島嶼一定與世界隔絕","島上文化只能有一種","四面環海就不能貿易"],0,"海洋也可以是道路。","島嶼同時有邊界，也能成為交流節點。"]]},
+ {title:"共同生活的約定",unit:"社會規範與法律",icon:"⚖️",enemy:"爭吵噪音",enemyIcon:"💢",artifact:"公平秤砣",artifactIcon:"⚖️",card:"線索放大鏡",intro:["法治廣場一片混亂：有人插隊，有人破壞展品，大家只會大聲責怪彼此。","找出規範與法律各自的作用，讓人們重新學會溝通。"],spots:[{t:"生活約定牆",i:"🤝",d:"牆上有風俗、道德、宗教與團體約定。",c:"社會規範有不同形式，能引導行為；遇到差異時要理性溝通、尊重包容。"},{t:"權利守護站",i:"🛡️",d:"查看法律如何保障生活。",c:"法律保障權利、維持秩序；人民與政府都必須依法行事。"}],fact:"秤象徵公平。規範幫助大家相處，法律則由國家制定並有強制力，用來保障權利與維持秩序。",outro:"廣場恢復秩序。抹除者逃向地形工坊，正把山地和平原的位置全部交換！",qs:[
+  ["下列哪一項屬於社會規範的作用？",["引導人們適當行為","保證每個人想法相同","讓人不必溝通","只處罰小學生"],0,"想想共同生活需要什麼。","規範能引導行為，幫助維持社會秩序。"],
+  ["同學對班級規定有不同意見，較好的做法是？",["理性說明並聽完別人的理由","用音量決定誰正確","嘲笑不同意見","偷偷破壞規定"],0,"尊重是討論的起點。","理性溝通與包容能幫助找出共同做法。"],
+  ["法律和一般生活習慣最大的不同之一是？",["法律由國家制定並具有強制力","法律只能靠口耳相傳","法律只對政府有效","法律永遠不能修改"],0,"想想誰制定、如何執行。","法律由國家制定，人民與政府都應遵守。"],
+  ["法律為什麼和生活有關？",["保障權利並維持秩序","讓所有興趣都相同","只處理古代事件","讓政府不受限制"],0,"法律也保護你我。","法律保障權利、維持秩序，也限制公權力。"],
+  ["有人破壞博物館文物，哪個判斷較合理？",["可能同時違反規範與法律","只要沒人看見就沒關係","道歉後一定不需負責","只有館長能關心"],0,"文物是共同文化資產。","破壞公共文物可能涉及道德責任與法律責任。"],
+  ["政府執行公權力時應該怎麼做？",["依照法律並保障人民權利","想怎麼做就怎麼做","不用說明理由","只聽權力最大的人"],0,"法律不只約束人民。","依法行政能避免權力被任意使用。"]]},
+ {title:"島嶼地形修復隊",unit:"地形如何影響生活",icon:"⛰️",enemy:"錯位巨石",enemyIcon:"🪨",artifact:"立體地形模型",artifactIcon:"🏔️",card:"地形測量尺",intro:["地形工坊的模型被翻亂，聚落、農田和道路全被放錯地方。","辨認地形與生活的關係，別讓抹除者把每個地方說成一模一樣。"],spots:[{t:"板塊觀測臺",i:"🌋",d:"模型顯示板塊互相作用。",c:"臺灣位在板塊交界附近，板塊作用塑造了多山的地形，也帶來地震風險。"},{t:"聚落配置桌",i:"🏘️",d:"比較山地、丘陵、平原、盆地與臺地。",c:"不同地形影響農業、交通、聚落分布與土地利用，沒有一種地形適合所有活動。"}],fact:"立體地形模型能呈現高低起伏。地形不只是景色，也會影響人們在哪裡居住、耕作與修築道路。",outro:"山川回到正確位置，可是氣候塔的四季鐘開始亂轉。必須趕在災害警報失效前修好它！",qs:[
+  ["臺灣多山與哪個原因關係最密切？",["板塊互相作用","每天都有颱風","河流完全不流動","人口很多"],0,"從地球表面的力量想。","臺灣位於板塊交界附近，板塊作用形成多山地形。"],
+  ["人口與聚落通常較密集在平原，主要因為？",["地勢平坦，交通與建設較方便","平原永遠不下雨","山地不能住人","平原沒有天然災害"],0,"比較建築和道路施工。","平坦地形通常較利於聚落、交通與農業發展。"],
+  ["山區開闢道路時，最需要注意什麼？",["坡度與崩塌風險","海水潮汐","沙漠風暴","極光出現"],0,"山坡在豪雨或地震時可能怎樣？","山區工程需評估坡度、地質與災害風險。"],
+  ["哪個例子最能說明地形影響產業？",["平原適合大面積耕作，山坡需考量坡度","所有作物到處都一樣","工廠只能建在山頂","漁業只和海拔有關"],0,"地勢會影響耕作方式。","不同地形適合不同的土地利用。"],
+  ["比較兩地生活差異時，正確做法是？",["同時查看地形、交通與產業資料","只看地名猜答案","認為山區一定落後","用一個例子代表全臺灣"],0,"多種資料才能避免過度簡化。","生活差異常由多種自然與人文因素共同造成。"],
+  ["面對地形災害，較合適的行動是？",["依風險規畫土地利用與防災","把所有山坡都剷平","忽略警戒資訊","在危險坡地任意開發"],0,"守護環境也要管理風險。","了解地形能幫助選擇較安全、永續的利用方式。"]]},
+ {title:"風雨氣候塔",unit:"氣候如何影響生活",icon:"🌦️",enemy:"暴風渦流",enemyIcon:"🌪️",artifact:"季風曆",artifactIcon:"📅",card:"修復工具箱",intro:["氣候塔把豪雨警報當成晴天通知，農作與行程都陷入混亂。","讀懂氣溫、雨量、位置與地形的線索，讓季風曆重新運作。"],spots:[{t:"雨量觀測窗",i:"🌧️",d:"比較各地雨量和季節變化。",c:"臺灣各地降雨並不相同；季風、颱風與地形都可能影響雨量分布。"},{t:"生活調整站",i:"🌾",d:"查看農業、衣著、建築和防災。",c:"氣候影響產業與生活；颱風、豪雨、乾旱等風險需要事前準備。"}],fact:"季風曆記錄季節風向與生活安排。氣候資料能幫助人們種植、用水、旅行與防災。",outro:"氣候塔恢復準確。地底卻傳來敲擊聲——史前證據庫的工具正逐一消失！",qs:[
+  ["臺灣各地氣候不完全相同，可能原因是？",["位置與地形不同","每個人穿著不同","行政區名稱不同","鐘錶速度不同"],0,"想想緯度、季風和高低起伏。","位置與地形會影響氣溫與雨量。"],
+  ["山的迎風面雨量常較多，最能說明？",["地形會影響降雨分布","海拔和雨量無關","全臺雨量完全相同","雨只落在都市"],0,"潮濕空氣遇山會上升。","地形能改變氣流，造成區域雨量差異。"],
+  ["氣候如何影響農業？",["作物選擇與耕作時間會配合氣溫、雨量","所有作物全年都相同","農業只看道路名稱","下雨越多一定越好"],0,"作物需要適合的生長條件。","農業會依各地氣候條件調整。"],
+  ["颱風可能帶來的影響，哪個說法最完整？",["可能補充水源，也可能造成強風豪雨災害","一定只有好處","一定只有壞處","和臺灣生活無關"],0,"同一現象可能有不同影響。","颱風帶來降雨，也可能造成災害，需做好準備。"],
+  ["收到豪雨警報時，合理的行動是？",["注意官方資訊並避開危險地區","到溪邊觀察水位","忽略警報繼續登山","轉傳未查證消息"],0,"防災要依可靠資訊。","事前準備和遵守警戒能降低風險。"],
+  ["比較兩地氣候，最有用的資料是？",["多年氣溫與雨量紀錄","某一天的心情","店家數量","校服顏色"],0,"氣候是長時間的平均狀況。","長期氣象資料較能呈現一地氣候特徵。"]]},
+ {title:"史前證據庫",unit:"史前人類與環境資源",icon:"🏺",enemy:"年代裂縫",enemyIcon:"🕳️",artifact:"石器工具組",artifactIcon:"🪨",card:"時序沙漏",intro:["抹除者說：『沒有文字，就沒有歷史。』史前證據庫因此出現巨大裂縫。","從遺物、遺跡和環境線索推測生活，證明沒有文字仍能理解過去。"],spots:[{t:"考古工作桌",i:"⛏️",d:"觀察石器、陶器、貝塚與墓葬。",c:"考古學家會記錄出土位置與層次，綜合多種證據推測史前生活。"},{t:"技術演變架",i:"🏺",d:"比較打製石器、磨製石器、陶器與金屬器。",c:"人們適應環境、善用資源並交流，使工具技術與生活方式逐漸改變。"}],fact:"工具不只是物品，還能反映材料、技術與生活需求。保留出土位置，才能保存文物和環境的關係。",outro:"史前證據重新連接。抹除者偷走一張織紋生態圖，企圖把不同原住民族都畫成同一種生活。",qs:[
+  ["沒有文字記錄，如何研究史前人類？",["分析遺物、遺跡與自然環境","只能靠想像","問當時的人","完全無法知道"],0,"考古證據可以說話。","考古資料能幫助我們推測史前生活。"],
+  ["考古挖掘時為什麼要記錄出土位置與地層？",["保留文物與年代、環境的關係","讓挖掘速度變慢","只為了畫漂亮地圖","位置完全不重要"],0,"證據離開脈絡會少掉資訊。","位置與層次是判斷年代和生活情境的重要線索。"],
+  ["石器、陶器和金屬器的改變可用來了解什麼？",["工具技術與生活方式的變化","古人的姓名清單","每天的天氣","所有部落說同一語言"],0,"工具反映製作方法與需求。","器具變化能反映技術、資源使用及生活方式。"],
+  ["史前人類如何善用環境資源？",["依環境取得食物、材料並製作工具","完全不使用自然資源","只從外星球取得食物","每個時期方法都相同"],0,"想想食物、居住和工具材料。","人們會因環境與技術不同，發展相應生活方式。"],
+  ["發現外地材料製成的飾品，最合理的推測是？",["可能存在島內或島外交流","一定由風自己吹來","所有人住在同一地點","飾品不是文化證據"],0,"材料來源能顯示移動或交換。","外地材料可能反映交換、旅行或文化交流。"],
+  ["守護考古遺址最合適的做法是？",["不任意挖取，依規定記錄與保存","把文物帶回家收藏","清除所有地層","只保留最漂亮的物品"],0,"文物的脈絡也是證據。","依法保存遺址與完整紀錄，才能留下公共文化資產。"]]},
+ {title:"山海共生織圖",unit:"原住民族如何與環境共存",icon:"🌿",enemy:"單一化墨團",enemyIcon:"⚫",artifact:"共生織圖",artifactIcon:"🧶",card:"文化聆聽石",intro:["織圖上的山、海、河流與族群故事正被黑墨蓋住。抹除者宣稱：『大家都一樣，才容易記。』","找回不同環境與文化的連結；尊重差異，才是真正的守護。"],spots:[{t:"族群分布圖",i:"🗺️",d:"比較不同族群居住的地理環境。",c:"臺灣原住民族多元，不同族群因所在地理環境與歷史，發展出各具特色的生活與文化。"},{t:"生態智慧屋",i:"🌱",d:"聆聽季節、狩獵、漁撈、耕作與資源管理知識。",c:"許多傳統知識重視季節與取用規範；學習時應避免把所有族群概括成一樣。"}],fact:"織圖象徵文化與環境彼此交織。文化不只保存在物品中，也存在語言、知識、技藝與生活實踐裡。",outro:"黑墨退去，多樣的聲音讓織圖更加完整。最後兩件文物在世界海門後方，抹除者準備改寫大航海時代。",qs:[
+  ["為什麼不同原住民族會發展出不同生活特色？",["地理環境、歷史與文化經驗不同","所有族群其實完全相同","只由天氣一天決定","因為課本頁數不同"],0,"文化和環境、歷史互相影響。","不同環境與歷史經驗形成多樣文化。"],
+  ["介紹原住民族文化時，哪種做法較尊重？",["查證族群名稱與資料，避免一概而論","把所有族群說成同一種","只用刻板印象形容","替族人決定文化內容"],0,"多元不等於都一樣。","尊重差異並使用可靠資料，是理解文化的起點。"],
+  ["傳統生態知識可能包含什麼？",["依季節與規範取用資源","永遠無限制捕捉","完全不觀察自然","只記錄都市交通"],0,"想想如何長久使用資源。","依環境節奏與規範利用資源，有助於共存。"],
+  ["文化資產只包含古老物品嗎？",["不是，也包含語言、技藝與知識","是，只有石頭算文物","只包含新建築","只包含課本"],0,"有些文化看不見卻能傳承。","有形與無形文化資產都值得保存。"],
+  ["想了解某族群的環境智慧，較好的方法是？",["參考族人觀點與可靠研究，多方查證","只看一張網路圖片","套用其他族群經驗","自己編一個故事當事實"],0,"讓文化主體也能發聲。","多方資料與族人觀點能減少誤解。"],
+  ["下列何者符合永續精神？",["在資源可恢復的範圍內使用並共同管理","看到資源就一次用完","只顧眼前方便","不必考慮下一代"],0,"永續要顧及未來。","節制利用與共同管理能讓資源長久延續。"]]},
+ {title:"世界海門攻防",unit:"大航海時代的臺灣",icon:"⛵",enemy:"時序海怪",enemyIcon:"🐙",artifact:"海權時序圖",artifactIcon:"⏳",card:"證據印章",intro:["世界海門被錯亂的船影堵住：荷蘭人、西班牙人與鄭氏的順序全被顛倒。","依航線、地點與時序重建證據，理解不同經營者為何來到臺灣。"],spots:[{t:"世界航線室",i:"🌐",d:"新航路把歐洲、亞洲與美洲連接得更緊密。",c:"大航海時代的海上競爭與貿易，使位在東亞航路附近的臺灣受到各方重視。"},{t:"經營者紀錄牆",i:"🏰",d:"查看荷蘭、西班牙與鄭氏政權的活動區域和先後。",c:"荷蘭人主要經營臺灣南部，西班牙人曾在北部活動；之後鄭成功驅逐荷蘭人，鄭氏政權經營臺灣。"}],fact:"時序圖把人物、地點和事件放在時間線上。研究歷史要分清先後，也要比較不同立場的資料。",outro:"海門恢復正確時序。抹除者帶著最後一件文物逃到未來展廳，準備讓所有歷史只剩一段單一說法。",qs:[
+  ["大航海時代，臺灣受到各方重視的重要原因是？",["位在東亞海上交通位置","臺灣位於歐洲中央","當時已有高速鐵路","臺灣完全沒有港灣"],0,"想想海上航線。","臺灣的位置有利於貿易、補給與區域經營。"],
+  ["荷蘭人與西班牙人來臺，和哪個背景最相關？",["歐洲海上貿易與勢力競爭","太空旅行競賽","工業機器人發展","網路購物興起"],0,"題目是大航海時代。","新航路、貿易與勢力競爭是重要背景。"],
+  ["哪個地理配對較正確？",["荷蘭人主要在南部，西班牙人曾在北部","兩者都只在玉山山頂","西班牙人只在南極","荷蘭人從未到臺灣"],0,"想想熱蘭遮城與北部據點。","不同經營者在臺活動的主要地區不同。"],
+  ["大致先後順序何者較合理？",["荷蘭與西班牙來臺，之後鄭氏經營","鄭氏之後才有荷蘭人第一次來臺","西班牙人最後建立鄭氏政權","三者同一天抵達"],0,"鄭成功驅逐的是誰？","鄭成功驅逐荷蘭人後，鄭氏政權經營臺灣。"],
+  ["要比較不同經營者，哪種方式最好？",["比較時間、地點、目的、政策與影響","只背一個人的名字","把不同時期混在一起","只看單一立場故事"],0,"歷史比較需要多個面向。","用共同面向比較，較能看出差異與影響。"],
+  ["同一事件的不同紀錄說法不一，應該怎麼辦？",["確認來源並交叉比對證據","選最誇張的版本","全部丟掉","只相信最短的句子"],0,"歷史判斷要查證。","比較來源、立場與證據，才能形成較可靠的解釋。"]]},
+ {title:"守護臺灣最美風景",unit:"影響、探究與文化保存",icon:"🏛️",enemy:"抹除者",enemyIcon:"👤",artifact:"臺灣守護圖卷",artifactIcon:"📜",card:"守護者徽章",intro:["抹除者站在未來展廳中央：『差異會讓人爭吵，忘掉細節就好了！』","檔檔回答：『真正的守護不是把故事變簡單，而是用證據理解多種觀點，並為未來採取行動。』"],spots:[{t:"時代影響鏡",i:"🔎",d:"觀察貿易、移民、聚落、產業與文化接觸。",c:"大航海時代的不同經營活動，使臺灣和世界的連結改變，也對社會與文化留下多面向影響。"},{t:"守護行動桌",i:"📋",d:"選定問題、蒐集資料、分析原因，再提出可行方案。",c:"守護自然或文化景觀，需要查證資料、聆聽不同使用者的需求，並持續行動與檢討。"}],fact:"守護圖卷不是一個人的答案，而是一份會持續更新的共同計畫：記錄證據、尊重差異、降低破壞，並邀請更多人參與。",outro:"八件文物重新發光。抹除者終於明白：差異不是錯誤，而是理解臺灣的重要線索。你的守護行動，才正要開始。",qs:[
+  ["大航海時代對臺灣的影響，哪個說法較完整？",["貿易、移民、產業與文化交流都可能改變","只有建築外觀改變","完全沒有影響","所有人感受都相同"],0,"影響通常有多個面向。","政治與經濟活動會對社會、文化及環境留下影響。"],
+  ["研究歷史影響時，為何要看不同立場的資料？",["不同群體的經驗與觀點可能不同","讓答案越混亂越好","證據沒有任何用途","只需找最多人同意的說法"],0,"同一事件可能被不同人經歷。","比較觀點能避免把複雜歷史化成單一故事。"],
+  ["開始守護一處文化景觀，第一步較適合？",["界定問題並蒐集可靠資料","立刻拆除所有設施","先決定答案再找證據","只拍照不調查"],0,"探究先問清楚問題。","明確問題與資料是提出方案的基礎。"],
+  ["保護景觀與居民使用需求衝突時，較好的做法是？",["聆聽各方並用資料討論可行方案","只讓一方決定","假裝沒有衝突","禁止任何人發言"],0,"公共議題需要溝通。","兼顧證據、權利與不同需求，方案才較能長久。"],
+  ["哪項行動最符合文化資產守護？",["記錄、維護並讓人理解其價值","把文物私自帶走","只留最漂亮的一件","為方便而抹去原貌"],0,"守護也包含教育與公共分享。","保存、研究與教育能讓文化資產延續。"],
+  ["面對『歷史只有一個簡單答案』，最好的回應是？",["以多種證據查證，理解因果與不同觀點","只背最短的一句","刪掉不一樣的資料","相信聲音最大的人"],0,"這是整趟冒險的核心。","歷史解釋需要證據、脈絡與多元觀點。"]]}
+];
+
+const items=[
+ {id:"compass",name:"航海羅盤",icon:"🧭",unlock:1,desc:"每場可移除一個錯誤選項。"},
+ {id:"lens",name:"線索放大鏡",icon:"🔍",unlock:2,desc:"每場可先顯示一次提示。"},
+ {id:"kit",name:"修復工具箱",icon:"🧰",unlock:4,desc:"每場可回復一顆守護心。"},
+ {id:"sand",name:"時序沙漏",icon:"⌛",unlock:5,desc:"每場可抵擋一次答錯傷害。"},
+ {id:"stamp",name:"證據印章",icon:"🔖",unlock:7,desc:"下一次答對造成兩點傷害。"}
+];
+const difficulties=[
+ {name:"見習",enemy:3,attack:1,hearts:4},
+ {name:"初級",enemy:4,attack:1,hearts:4},
+ {name:"進階",enemy:5,attack:1,hearts:5},
+ {name:"挑戰",enemy:5,attack:2,hearts:5},
+ {name:"高階",enemy:6,attack:2,hearts:6},
+ {name:"艱難",enemy:7,attack:3,hearts:6},
+ {name:"專家",enemy:8,attack:3,hearts:7},
+ {name:"最終守護",enemy:9,attack:4,hearts:8}
+];
+const app=document.querySelector("#app"),params=new URLSearchParams(location.search);
+const STORAGE_KEY="relicGuardian8-balanced-v2";
+const saved=(()=>{try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}") }catch{return {}}})();
+const state={unlocked:Math.max(1,Math.min(8,saved.unlocked||1)),done:new Set(saved.done||[]),level:1,selectedItems:["compass"],usedItems:new Set(),clues:new Set(),spotOrder:[0,1],deck:[],qi:0,enemy:3,enemyMax:3,enemyAttack:1,hp:4,hpMax:4,attempt:0,armed:0,shield:0,entry:0,feedback:saved.feedback||{}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify({unlocked:state.unlocked,done:[...state.done],feedback:state.feedback}))}
+function render(html){app.innerHTML=html;app.focus();updateProgress()}
+function updateProgress(){document.querySelector("#progress").innerHTML=levels.map((_,i)=>`<span class="dot ${state.done.has(i+1)?"on":""}"></span>`).join("")}
+function toast(msg){const t=document.querySelector("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.hidden=true,1900)}
+function showTitle(){render(`<section class="screen hero"><div><div class="eyebrow">八章完整冒險</div><h2>守住文物，<br>找回臺灣故事</h2><p>神祕的「抹除者」打散了八件核心文物。探索線索、運用道具、破解知識迷霧，完成一場從位置與環境一路走到歷史探究的守護行動。</p><button class="primary" id="start">進入守護局</button></div><div class="artifact-art" aria-hidden="true">🏛️</div></section>`);document.querySelector("#start").onclick=showMap}
+function showMap(){render(`<section class="screen"><div class="map-head"><div><div class="eyebrow">文物守護局・行動地圖</div><h2>八件文物，八段臺灣故事</h2><p>主線依序推進，敵人逐關變強；每次進入後，探索點、題目和答案都會重新排列。</p></div><span class="tag">已修復 ${state.done.size} / 8</span></div><div class="map">${levels.map((l,i)=>{const n=i+1,locked=n>state.unlocked,d=difficulties[i];return `<button class="level ${locked?"locked":state.done.has(n)?"done":"current"}" data-level="${n}" ${locked?"disabled":""}><span class="num">第 ${n} 關 ${locked?"・尚未開放":state.done.has(n)?"・已修復":"・待出發"}</span><strong>${l.icon} ${esc(l.title)}</strong><small>${esc(l.unit)}<br>難度：${d.name}・敵人 ${d.enemy} HP</small></button>`}).join("")}</div><div class="row" style="margin-top:20px"><button class="secondary" id="story">重看故事開場</button><button class="secondary" id="reset">清除進度</button></div></section>`);document.querySelectorAll(".level:not(.locked)").forEach(b=>b.onclick=()=>prepare(+b.dataset.level));document.querySelector("#story").onclick=showTitle;document.querySelector("#reset").onclick=()=>{if(confirm("確定要清除八關進度，從第一關重新開始嗎？")){localStorage.removeItem(STORAGE_KEY);location.reload()}}}
+function itemEffect(id,n=state.level){if(id==="compass")return `排除 ${n>=5?2:1} 個錯誤選項。`;if(id==="lens")return n>=5?"顯示提示並排除 1 個錯誤選項。":"顯示本題提示。";if(id==="kit")return n>=7?"補滿全部守護心。":`回復 ${n>=4?3:2} 顆守護心。`;if(id==="sand")return `抵擋 ${n>=7?2:1} 次敵人攻擊。`;return `下一次答對造成 ${n>=8?3:2} 點傷害。`}
+function prepare(n){state.level=n;state.entry++;state.spotOrder=shuffled([0,1],n*31+state.entry);const available=items.filter(x=>x.unlock<=state.unlocked),limit=n===8?2:1;state.selectedItems=available.slice(-limit).map(x=>x.id);const l=levels[n-1],d=difficulties[n-1];render(`<section class="screen"><div class="eyebrow">第 ${n} 關・${esc(l.unit)}</div><h2>${l.icon} ${esc(l.title)}</h2><div class="two"><div class="panel dialogue"><span class="speaker">檔檔・文物嚮導</span><p>${esc(l.intro[0])}</p><p>${esc(l.intro[1])}</p></div><div class="panel"><h3>選擇本關道具</h3><p>${n===8?"最終 Boss 可攜帶兩件道具。":"本關可攜帶一件道具。"}<br>難度：<b>${d.name}</b><br>敵人 ${d.enemy} HP・攻擊 ${d.attack}<br>守護心上限 ${d.hearts}</p><span class="tag" id="itemCount">已選 ${state.selectedItems.length} / ${limit}</span></div></div><div class="item-grid">${available.map(x=>`<button class="item ${state.selectedItems.includes(x.id)?"selected":""}" data-item="${x.id}"><span>${x.icon}</span><b>${esc(x.name)}</b><small>${esc(itemEffect(x.id,n))}</small></button>`).join("")}</div><div class="row"><button class="secondary" id="back">返回地圖</button><button class="primary" id="go">帶著道具出發</button></div></section>`);document.querySelectorAll(".item").forEach(b=>b.onclick=()=>{const id=b.dataset.item,pos=state.selectedItems.indexOf(id);if(pos>=0){if(state.selectedItems.length>1)state.selectedItems.splice(pos,1)}else if(state.selectedItems.length<limit)state.selectedItems.push(id);else state.selectedItems=[...state.selectedItems.slice(1),id];document.querySelectorAll(".item").forEach(x=>x.classList.toggle("selected",state.selectedItems.includes(x.dataset.item)));document.querySelector("#itemCount").textContent=`已選 ${state.selectedItems.length} / ${limit}`});document.querySelector("#back").onclick=showMap;document.querySelector("#go").onclick=startExplore}
+function startExplore(){state.clues.clear();renderExplore()}
+function renderExplore(){const l=levels[state.level-1];render(`<section class="screen"><div class="eyebrow">探索階段・找到 2 個關鍵線索</div><h2>${l.icon} ${esc(l.title)}</h2><div class="spots">${state.spotOrder.map(i=>{const s=l.spots[i];return `<article class="spot ${state.clues.has(i)?"open":""}"><div><div class="spot-icon">${s.i}</div><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p>${state.clues.has(i)?`<div class="clue"><b>關鍵線索</b><br>${esc(s.c)}</div>`:""}</div><button class="${state.clues.has(i)?"secondary":"primary"}" data-spot="${i}" ${state.clues.has(i)?"disabled":""}>${state.clues.has(i)?"線索已記錄":"調查這裡"}</button></article>`}).join("")}</div><div class="row"><span class="tag">線索 ${state.clues.size} / 2</span><button class="primary" id="battle" ${state.clues.size<2?"disabled":""}>進入教學戰鬥</button></div></section>`);document.querySelectorAll("[data-spot]").forEach(b=>b.onclick=()=>{state.clues.add(+b.dataset.spot);renderExplore()});document.querySelector("#battle").onclick=startBattle}
+function random(seed){if(!params.has("seed"))return Math.random;let x=(+params.get("seed")||115)+seed;return()=>{x|=0;x=x+0x6D2B79F5|0;let t=Math.imul(x^x>>>15,1|x);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffled(list,salt=0){const a=[...list],rng=random(salt);for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function makeDeck(){const l=levels[state.level-1],order=shuffled([0,1,2,3,4,5],state.level*101+state.entry*13+state.qi);return order.map((index,pos)=>{const q=l.qs[index],choices=shuffled(q[1].map((text,original)=>({text,correct:original===q[2]})),state.level*211+state.entry*17+pos);return {text:q[0],choices,correct:choices.findIndex(x=>x.correct),hint:q[3],explain:q[4]}})}
+function startBattle(){const d=difficulties[state.level-1];state.qi=0;state.deck=makeDeck();state.enemy=state.enemyMax=d.enemy;state.enemyAttack=d.attack;state.hp=state.hpMax=d.hearts;state.attempt=0;state.usedItems=new Set();state.armed=0;state.shield=0;renderBattle()}
+function renderBattle(message="選出最合理的答案。第一次答錯會得到提示，還能再選一次。"){const l=levels[state.level-1],q=state.deck[state.qi],equipped=state.selectedItems.map(id=>items.find(x=>x.id===id)),d=difficulties[state.level-1];render(`<section class="screen"><div class="eyebrow">證據戰鬥・本輪第 ${state.qi+1} / 6 題・${d.name}</div><div class="battle-grid"><aside class="enemy"><div class="enemy-icon">${l.enemyIcon}</div><h2>${esc(l.enemy)}</h2><div>迷霧強度 ${state.enemy} / ${state.enemyMax}</div><div class="bar"><div class="fill" style="width:${state.enemy/state.enemyMax*100}%"></div></div><div>敵人攻擊 ${state.enemyAttack}・守護心 ${state.hp} / ${state.hpMax}</div><div class="hearts">${"❤️".repeat(state.hp)}${"🖤".repeat(state.hpMax-state.hp)}</div></aside><div class="battle-card"><div>${equipped.map(it=>`<span class="tag">${it.icon} ${esc(it.name)}・${esc(itemEffect(it.id))}</span>`).join(" ")}</div><h3 class="question">${esc(q.text)}</h3><div class="answers">${q.choices.map((a,i)=>`<button class="answer" data-a="${i}">${String.fromCharCode(65+i)}　${esc(a.text)}</button>`).join("")}</div><div class="status" id="status" aria-live="polite">${esc(message)}</div><div class="battle-actions">${equipped.map(it=>`<button class="secondary" data-use="${it.id}" ${state.usedItems.has(it.id)?"disabled":""}>${state.usedItems.has(it.id)?`${it.icon} 已使用`:`使用 ${it.icon} ${esc(it.name)}`}</button>`).join("")}</div></div></div></section>`);document.querySelectorAll(".answer").forEach(b=>b.onclick=()=>answer(+b.dataset.a));document.querySelectorAll("[data-use]").forEach(b=>b.onclick=()=>useItem(b.dataset.use))}
+function removeWrong(buttons,q,count){buttons.filter(b=>+b.dataset.a!==q.correct&&!b.disabled).slice(0,count).forEach(b=>{b.disabled=true;b.style.opacity=.35})}
+function useItem(id){if(state.usedItems.has(id))return;const q=state.deck[state.qi],buttons=[...document.querySelectorAll(".answer")],late=state.level>=5;state.usedItems.add(id);if(id==="compass"){const count=late?2:1;removeWrong(buttons,q,count);setStatus(`羅盤排除了 ${count} 個錯誤方向。`)}
+ else if(id==="lens"){if(late)removeWrong(buttons,q,1);setStatus(`提示：${q.hint}${late?" 並已排除一個錯誤選項。":""}`)}
+ else if(id==="kit"){if(state.hp===state.hpMax){state.usedItems.delete(id);setStatus("守護心目前是滿的，工具箱留到受傷後再用。");return}const heal=state.level>=7?state.hpMax:state.level>=4?3:2;state.hp=Math.min(state.hpMax,state.hp+heal);renderBattle(`工具箱修復了守護心，目前 ${state.hp} / ${state.hpMax}。`)}
+ else if(id==="sand"){state.shield=state.level>=7?2:1;setStatus(`沙漏已啟動：可以抵擋 ${state.shield} 次敵人攻擊。`)}
+ else {state.armed=state.level>=8?3:2;setStatus(`證據印章蓄力完成：下一次答對造成 ${state.armed} 點傷害。`)}
+ const b=document.querySelector(`[data-use="${id}"]`);if(b){b.disabled=true;b.textContent=`${items.find(x=>x.id===id).icon} 已使用`}}
+function setStatus(s){document.querySelector("#status").textContent=s}
+function answer(choice){const q=state.deck[state.qi],buttons=[...document.querySelectorAll(".answer")];if(choice===q.correct){buttons.forEach(b=>b.disabled=true);buttons[choice].classList.add("correct");const dmg=state.armed||1;state.armed=0;state.enemy=Math.max(0,state.enemy-dmg);setStatus(`答對了！${q.explain}${dmg>1?` 證據印章造成 ${dmg} 點傷害。`:""}`);setTimeout(nextTurn,850)}else{buttons[choice].classList.add("wrong");buttons[choice].disabled=true;if(state.attempt===0){state.attempt=1;setStatus(`提示：${q.hint} 再選一次。`)}else{buttons.forEach(b=>b.disabled=true);buttons[q.correct].classList.add("correct");if(state.shield>0){state.shield--;setStatus(`沙漏擋住了 ${state.enemyAttack} 點傷害，還能抵擋 ${state.shield} 次。${q.explain}`)}else{state.hp=Math.max(0,state.hp-state.enemyAttack);setStatus(`敵人造成 ${state.enemyAttack} 點傷害。正確答案已標示。${q.explain}`)}setTimeout(nextTurn,1000)}}}
+function nextTurn(){if(state.enemy<=0)return showReward();if(state.hp<=0)return showLose();state.qi++;state.attempt=0;if(state.qi>=state.deck.length){state.qi=0;state.entry++;state.deck=makeDeck()}renderBattle()}
+function showLose(){const l=levels[state.level-1];render(`<section class="screen reward"><div class="big">🧩</div><div class="eyebrow">證據還差一點</div><h2>${esc(l.enemy)}尚未完全修復</h2><p>沒關係，失敗不會扣除進度。重新整理線索，再試一次。</p><div class="row" style="justify-content:center"><button class="secondary" id="explore">重看探索線索</button><button class="primary" id="retry">重新挑戰</button></div></section>`);document.querySelector("#explore").onclick=renderExplore;document.querySelector("#retry").onclick=startBattle}
+function showReward(){const l=levels[state.level-1];state.done.add(state.level);state.unlocked=Math.max(state.unlocked,Math.min(8,state.level+1));save();render(`<section class="screen reward"><div class="eyebrow">第 ${state.level} 關修復完成</div><div class="artifact-card"><div class="big">${l.artifactIcon}</div><h2>${esc(l.artifact)}</h2><div class="tag">知識卡・${esc(l.card)}</div><p class="fact">${esc(l.fact)}</p></div><div class="panel dialogue"><span class="speaker">檔檔・文物嚮導</span>${esc(l.outro)}</div><div style="margin-top:20px"><button class="primary" id="continue">${state.level===8?"觀看守護行動結局":"前往下一關"}</button></div></section>`);document.querySelector("#continue").onclick=()=>state.level===8?showFinal():prepare(state.level+1)}
+function showFinal(){render(`<section class="screen"><div class="eyebrow">歷史文物守護行動・任務完成</div><h2>你守住的，不只是八件文物</h2><div class="finale"><p><b>抹除者：</b>「原來不同說法不一定是混亂。只要查證來源、理解背景，就能拼出更完整的故事。」</p><p><b>檔檔：</b>「沒錯。臺灣的位置、環境、生活規範、史前證據、原住民族智慧與大航海時代，都不是孤立的知識。它們一起回答：人們如何在這座島嶼生活、交流，並為未來做選擇。」</p><p><b>守護員誓詞：</b>我會查證證據、尊重不同觀點、珍惜自然與文化資產，並把理解化成行動。</p></div><div class="feedback-box"><h3>最後，請留下整體試玩回饋</h3><p>回饋只在完整任務結束後出現。可複選，資料只保存在這台瀏覽器。</p><div class="feedback-buttons">${[["readable","文字容易理解"],["fun","我願意繼續玩"],["long","有些內容太長"],["hard","有些題目太難"]].map(x=>`<button class="secondary ${state.feedback[x[0]]?"chosen":""}" data-f="${x[0]}">${x[1]}</button>`).join("")}</div><p id="thanks" aria-live="polite"></p></div><div class="row" style="margin-top:22px"><button class="secondary" id="map">回到關卡地圖</button><button class="primary" id="replay">再次觀看結局</button></div></section>`);document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const k=b.dataset.f;state.feedback[k]=!state.feedback[k];b.classList.toggle("chosen",state.feedback[k]);save();document.querySelector("#thanks").textContent="謝謝！你的回饋已記錄。"});document.querySelector("#map").onclick=showMap;document.querySelector("#replay").onclick=showFinal}
+function selfCheck(){const errors=[];if(levels.length!==8)errors.push("關卡不是 8 關");levels.forEach((l,i)=>{if(l.qs.length!==6)errors.push(`第 ${i+1} 關題數錯誤`);if(l.spots.length!==2)errors.push(`第 ${i+1} 關探索點錯誤`);l.qs.forEach((q,j)=>{if(q[1].length!==4||q[2]<0||q[2]>3)errors.push(`第 ${i+1}-${j+1} 題格式錯誤`)})});difficulties.forEach((d,i)=>{if(i&&d.enemy<difficulties[i-1].enemy)errors.push("敵人血量未逐關提高");if(i&&d.attack<difficulties[i-1].attack)errors.push("敵人攻擊未逐關提高");if(d.attack<1||d.hearts<=d.attack)errors.push(`第 ${i+1} 關平衡值錯誤`)});if(difficulties.at(-1).attack!==4)errors.push("最終關攻擊力不是 4");if(document.querySelectorAll(".feedback-box").length)errors.push("回饋不應出現在初始畫面");console.info(errors.length?errors:"Self-check passed: shuffled 8-level campaign with scaling combat.");return errors}
+document.querySelector("#largeBtn").onclick=()=>{document.body.classList.toggle("large");document.querySelector("#largeBtn").textContent=document.body.classList.contains("large")?"一般文字":"放大文字"};document.querySelector("#homeBtn").onclick=showMap;
+selfCheck();const debug=+params.get("level");if(debug>=1&&debug<=8){state.unlocked=8;prepare(debug)}else showTitle();
+</script>
+</body>
+</html>
