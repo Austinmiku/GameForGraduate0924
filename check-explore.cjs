@@ -44,12 +44,12 @@ const context = vm.createContext({ document, location: { search: '' }, localStor
 vm.runInContext(script, context);
 for (let level = 1; level <= 8; level++) {
   const n = String(level).padStart(2, '0');
-  for (const file of [`explore-scene-${n}.png`, `explore-spot-${n}-a.png`, `explore-spot-${n}-b.png`])
+  for (const file of [`explore-scene-${n}.webp`, `explore-spot-${n}-a.webp`, `explore-spot-${n}-b.webp`])
     assert.ok(fs.existsSync(path.join(__dirname, 'assets', file)), file);
   vm.runInContext(`state.level=${level};state.spotOrder=[1,0];startExplore()`, context);
-  assert.match(app.markup, new RegExp(`explore-scene-${n}\\.png`));
-  assert.match(app.markup, new RegExp(`explore-spot-${n}-a\\.png`));
-  assert.match(app.markup, new RegExp(`explore-spot-${n}-b\\.png`));
+  assert.match(app.markup, new RegExp(`explore-scene-${n}\\.webp`));
+  assert.match(app.markup, new RegExp(`explore-spot-${n}-a\\.webp`));
+  assert.match(app.markup, new RegExp(`explore-spot-${n}-b\\.webp`));
   assert.equal(pins.length, 2);
   const firstClue = vm.runInContext(`levels[${level - 1}].spots[0].c`, context);
   assert.ok(!app.markup.includes(firstClue), 'empty notebook must not reveal clue text');
