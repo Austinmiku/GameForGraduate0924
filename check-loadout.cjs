@@ -21,7 +21,7 @@ const document = {
   querySelector(selector) { return { '#app': app, '#progress': progress, '#go': go, '#back': back, '#itemCount': count }[selector] || null; },
   querySelectorAll(selector) { return selector === '.item' ? cards : []; },
 };
-const context = vm.createContext({ document, window: {}, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
+const context = vm.createContext({ document, window: {}, location: { search: '' }, localStorage: { getItem() { return '{}'; }, setItem() {} }, URLSearchParams, console, Math });
 vm.runInContext(fs.readFileSync(path.join(__dirname, 'question-bank.js'), 'utf8'), context);
 vm.runInContext(script, context);
 vm.runInContext('state.unlocked=2;prepare(1)', context);
@@ -38,6 +38,10 @@ assert.match(app.markup, /最多選 2 件/);
 cards[0].onclick(); cards[1].onclick();
 assert.equal(count.textContent, '已選 2 / 2');
 vm.runInContext('state.hp=0;prepare(2)', context);
-assert.equal(cards.length, 1);
-assert.equal(cards[0].dataset.item, 'kit');
+assert.equal(cards.length, 5);
+assert.equal(vm.runInContext('state.hp', context), vm.runInContext('maxHeartsFor(state.unlocked)', context));
+vm.runInContext('state.hp=0;prepare(3)', context);
+assert.equal(vm.runInContext('state.hp', context), vm.runInContext('maxHeartsFor(state.unlocked)', context));
+vm.runInContext('state.hp=2;prepare(4)', context);
+assert.equal(vm.runInContext('state.hp', context), 2);
 console.log('Loadout selection passed');
