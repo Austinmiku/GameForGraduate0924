@@ -22,4 +22,6 @@ assert.equal(vm.runInContext('state.pendingEvent', context), null);
 vm.runInContext('startBattle()', context);
 assert.equal(vm.runInContext('state.hp', context), 3);
 assert.equal(JSON.parse(stored).hp, 3);
+assert.deepEqual(Array.from(vm.runInContext('[kitHeal(1),kitHeal(4),kitHeal(7)]', context)), [1, 2, 3]);
+assert.equal(vm.runInContext('itemEffect("kit",8)', context), '回復 3 顆守護心。');
 console.log('Persistent guardian hearts passed');
