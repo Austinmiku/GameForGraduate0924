@@ -1,0 +1,77 @@
+[
+  {
+    "id": "repair",
+    "source": "exec-9d644ae9-3d9a-49ae-8ef7-ec6ab1d364f5.png",
+    "asset": "event-repair.webp"
+  },
+  {
+    "id": "letter",
+    "source": "exec-b15771c9-9d6c-4f41-9d60-469fee94545e.png",
+    "asset": "event-letter.webp"
+  },
+  {
+    "id": "supply",
+    "source": "exec-bd389743-c7ab-4d69-8406-4cfdfd2a5089.png",
+    "asset": "event-supply.webp"
+  },
+  {
+    "id": "tailwind",
+    "source": "exec-8f58b1c3-a0ac-4742-9820-4bd57626343f.png",
+    "asset": "event-tailwind.webp"
+  },
+  {
+    "id": "ambush",
+    "source": "exec-8f2e4887-e338-4a17-a820-6342ec3ad9d9.png",
+    "asset": "event-ambush.webp"
+  },
+  {
+    "id": "fork",
+    "source": "exec-42d3ac5e-74db-475e-a99d-1d525e4a68a2.png",
+    "asset": "event-fork.webp"
+  },
+  {
+    "id": "truth",
+    "source": "exec-a7caec80-0486-43e5-b54e-920a718bf265.png",
+    "asset": "event-truth.webp"
+  },
+  {
+    "id": "trader",
+    "source": "exec-99350f95-abda-4438-a7fa-a3f50591c541.png",
+    "asset": "event-trader.webp"
+  },
+  {
+    "id": "rescue",
+    "source": "exec-2499ac28-361d-469e-a5f4-051ed3291823.png",
+    "asset": "event-rescue.webp"
+  },
+  {
+    "id": "echo",
+    "source": "exec-d1894ad6-646a-4023-8389-49e1a45c1d55.png",
+    "asset": "event-echo.webp"
+  },
+  {
+    "id": "label",
+    "source": "exec-125cc2d7-5785-40cb-924c-5c669fb4fd03.png",
+    "asset": "event-label.webp"
+  },
+  {
+    "id": "blackout",
+    "source": "exec-31db4865-64f7-4c56-a002-af309a110dcf.png",
+    "asset": "event-blackout.webp"
+  },
+  {
+    "id": "teamwork",
+    "source": "exec-78ce08ff-303f-4ada-b5ef-1b3ce8af3bb6.png",
+    "asset": "event-teamwork.webp"
+  },
+  {
+    "id": "exchange",
+    "source": "exec-e6aed00e-6807-4fd9-bfd0-3e5cb0b2189b.png",
+    "asset": "event-exchange.webp"
+  },
+  {
+    "id": "ticket",
+    "source": "exec-d563103d-4216-4c66-b7cd-534c937a04d9.png",
+    "asset": "event-ticket.webp"
+  }
+]
