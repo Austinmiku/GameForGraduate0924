@@ -4,7 +4,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '歷史文物守護行動完整版.html'), 'utf8');
-const script = html.match(/<script[^>]*>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
+const script = html.match(/<script>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
 const app = { focus() {} };
 const progress = { setAttribute() {} };
 const document = {
@@ -13,12 +13,14 @@ const document = {
 };
 const context = vm.createContext({
   document,
+  window: {},
   location: { search: '?seed=115' },
   localStorage: { getItem() { return '{}'; }, setItem() {} },
   URLSearchParams,
   console,
   Math,
 });
+vm.runInContext(fs.readFileSync(path.join(__dirname, 'question-bank.js'), 'utf8'), context);
 vm.runInContext(script, context);
 
 assert.deepEqual(Array.from(vm.runInContext('difficulties.map(d=>d.enemy)', context)), [3, 4, 5, 5, 6, 7, 8, 9]);
