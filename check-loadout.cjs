@@ -24,8 +24,8 @@ const document = {
 const context = vm.createContext({ document, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
 vm.runInContext(script, context);
 vm.runInContext('state.unlocked=2;prepare(1)', context);
-assert.match(app.markup, /從 2 件道具中選 1 件/);
-assert.equal(cards.length, 2);
+assert.match(app.markup, /從 3 件道具中選 1 件/);
+assert.equal(cards.length, 3);
 assert.equal(go.disabled, true);
 cards[1].onclick();
 assert.equal(go.disabled, false);
@@ -36,4 +36,7 @@ vm.runInContext('state.unlocked=8;prepare(8)', context);
 assert.match(app.markup, /最多選 2 件/);
 cards[0].onclick(); cards[1].onclick();
 assert.equal(count.textContent, '已選 2 / 2');
+vm.runInContext('state.hp=0;prepare(2)', context);
+assert.equal(cards.length, 1);
+assert.equal(cards[0].dataset.item, 'kit');
 console.log('Loadout selection passed');
