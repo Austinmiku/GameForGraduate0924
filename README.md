@@ -8,6 +8,16 @@
 
 遊戲不需要安裝套件或連線到伺服器。
 
+請保留 `question-bank.js` 與完整版 HTML 在同一資料夾；遊戲開啟時會先載入這份題庫。
+
+若要從 Excel 重新產生題庫，使用安裝了 `openpyxl` 的 Python 執行：
+
+```powershell
+python tools/export-question-bank.py "../歷史文物守護行動_完整題庫.xlsm"
+```
+
+轉換工具會檢查八關各十題、正確選項及答案內容，再更新 `question-bank.js`。遊戲不會直接讀取 Excel 檔。
+
 ## 內容
 
 - 八個完整關卡與連續劇情
@@ -20,5 +30,7 @@
 ## 檔案
 
 - `歷史文物守護行動完整版.html`：目前的完整遊戲
+- `question-bank.js`：由 Excel 匯出的八關題目、選項、答案、提示與解析
+- `tools/export-question-bank.py`：將 Excel 題庫重新轉成 JS 的工具
 - `歷史文物守護行動第一小關.html`：第一小關原型
 - `國小生版畢業專題遊戲構想.docx`：調整後的遊戲企劃文件

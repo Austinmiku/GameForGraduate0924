@@ -4,7 +4,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '歷史文物守護行動完整版.html'), 'utf8');
-const script = html.match(/<script[^>]*>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
+const script = html.match(/<script>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
 let cards, go, count, back;
 const app = { focus() {} };
 const progress = { setAttribute() {} };
@@ -21,7 +21,8 @@ const document = {
   querySelector(selector) { return { '#app': app, '#progress': progress, '#go': go, '#back': back, '#itemCount': count }[selector] || null; },
   querySelectorAll(selector) { return selector === '.item' ? cards : []; },
 };
-const context = vm.createContext({ document, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
+const context = vm.createContext({ document, window: {}, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
+vm.runInContext(fs.readFileSync(path.join(__dirname, 'question-bank.js'), 'utf8'), context);
 vm.runInContext(script, context);
 vm.runInContext('state.unlocked=2;prepare(1)', context);
 assert.match(app.markup, /從 3 件道具中選 1 件/);

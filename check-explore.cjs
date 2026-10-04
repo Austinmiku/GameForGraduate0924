@@ -4,7 +4,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '歷史文物守護行動完整版.html'), 'utf8');
-const script = html.match(/<script[^>]*>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
+const script = html.match(/<script>([\s\S]*?)<\/script>/)[1].split('document.querySelector("#largeBtn").onclick=')[0];
 let pins = [];
 const app = { focus() {} };
 Object.defineProperty(app, 'innerHTML', { set(markup) {
@@ -40,7 +40,8 @@ const document = {
   querySelector(selector) { return { '#app': app, '#progress': progress, '#battle': battle, '.explore-canvas': canvas }[selector] || null; },
   querySelectorAll(selector) { return selector === '[data-spot]' ? pins : []; },
 };
-const context = vm.createContext({ document, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
+const context = vm.createContext({ document, window: {}, location: { search: '' }, localStorage: { getItem() { return '{}'; } }, URLSearchParams, console, Math });
+vm.runInContext(fs.readFileSync(path.join(__dirname, 'question-bank.js'), 'utf8'), context);
 vm.runInContext(script, context);
 for (let level = 1; level <= 8; level++) {
   const n = String(level).padStart(2, '0');
