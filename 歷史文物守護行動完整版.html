@@ -355,6 +355,14 @@
     @keyframes bt-impact{0%{transform:scale(.2);opacity:1}35%{transform:scale(1);opacity:1}100%{transform:scale(1.35);opacity:0}}
     .bt-stage.shake-sm{animation:bt-shake .26s}
 
+    /* 圖片載入進度 */
+    .load-screen{min-height:340px;display:grid;place-content:center;justify-items:center;gap:14px;text-align:center}
+    .load-screen h2{margin:0}
+    .load-bar{width:min(420px,78vw);height:18px;border:2px solid #9b622e;border-radius:10px;background:#fff8e8;overflow:hidden}
+    .load-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e7ae43,#f6cf72);transition:width .2s}
+    .load-count{margin:0;font-weight:800;color:#80502d}
+    .load-skip p{margin:8px 0 12px}
+
     /* 關卡解鎖動畫 */
     .map-level .marker{position:relative}
     .map-level.map-stamp .marker{animation:mapStamp .7s cubic-bezier(.2,.9,.3,1.3)}
@@ -528,6 +536,19 @@ function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify({playerName:stat
 function render(html,focus=true){app.innerHTML=html;if(focus)app.focus();updateProgress()}
 function updateProgress(){const done=state.done.size,progress=document.querySelector("#progress");progress.setAttribute("aria-valuenow",done);progress.setAttribute("aria-valuetext","已修復 "+done+" 件，共 8 件");progress.innerHTML='<span class="progress-label">修復<strong>'+done+'<small> / 8</small></strong></span><span class="progress-track" aria-hidden="true">'+levels.map((_,i)=>'<span class="dot '+(state.done.has(i+1)?"on":"")+'"></span>').join("")+'</span>'}
 function toast(msg){const t=document.querySelector("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.hidden=true,1900)}
+/* ===== 圖片分批預載：開場載共用圖，進關前載該關的圖，並在背景先載下一關 ===== */
+const imgReady=new Set(),imgPending=new Map();
+/* 載入失敗會重試一次；再失敗就回報 false，讓遊戲照常進行（各畫面本來就有缺圖備援） */
+function preloadImage(src){if(imgReady.has(src)||typeof Image==="undefined")return Promise.resolve(true);if(!imgPending.has(src))imgPending.set(src,new Promise(done=>{let retried=false;const attempt=()=>{const img=new Image();img.onload=()=>{imgReady.add(src);imgPending.delete(src);done(true)};img.onerror=()=>{if(!retried){retried=true;setTimeout(attempt,500)}else{imgPending.delete(src);done(false)}};img.src=src};attempt()}));return imgPending.get(src)}
+const coreImages=["assets/prologue-01-museum-night.webp","assets/prologue-02-erasure.webp","assets/prologue-03-dangdang.webp","assets/prologue-04-eight-relics.webp","assets/howto-01-compass.webp","assets/howto-02-magnifier.webp","assets/howto-03-answer-card.webp","assets/howto-04-restored-vessel.webp","assets/guardian-archive-hero.webp","assets/adventure-map-taiwan.webp","assets/item-restoration-kit.webp","assets/item-hourglass.webp","assets/item-evidence-stamp.webp","assets/battle-hero.webp","assets/battle-hero-back.webp","assets/battle-dangdang.webp"];
+function levelImages(n){const nn=String(n).padStart(2,"0"),forced=params.get("event"),event=randomEvents.some(e=>e.id===forced)?forced:!state.eventSeen.has(n)&&state.eventPlan[n];return [`assets/explore-scene-${nn}.webp`,`assets/explore-spot-${nn}-a.webp`,`assets/explore-spot-${nn}-b.webp`,`assets/battle-enemy-${nn}.webp`,`assets/reward-artifact-${nn}.webp`,...(event?[`assets/events/event-${event}.webp`]:[])]}
+/* 顯示進度條直到 list 都載完才呼叫 done；已載過的不再等。超過 15 秒會出現「直接開始」 */
+function loadImages(list,title,done){const todo=list.filter(src=>!imgReady.has(src));if(!todo.length||typeof Image==="undefined")return done();
+ render(`<section class="screen load-screen" id="loadScreen"><div class="eyebrow">檔檔正在整理資料</div><h2>${esc(title)}</h2><div class="load-bar" id="loadBar" role="progressbar" aria-label="圖片載入進度" aria-valuemin="0" aria-valuemax="${todo.length}" aria-valuenow="0"><i></i></div><p class="load-count" id="loadCount" role="status">已載入 0 / ${todo.length} 張圖片</p><div class="load-skip" id="loadSkip"></div></section>`);
+ const screen=document.querySelector("#loadScreen"),find=s=>screen.querySelector(s);let count=0,finished=false,slow=0;
+ const finish=()=>{if(finished)return;finished=true;clearTimeout(slow);if(screen.isConnected)done()};
+ slow=setTimeout(()=>{if(finished||!screen.isConnected)return;find("#loadSkip").innerHTML=`<p>網路好像有點慢。也可以先開始，圖片會陸續出現。</p><button class="secondary" type="button" id="loadGo">直接開始</button>`;find("#loadGo").onclick=finish},15000);
+ todo.forEach(src=>preloadImage(src).then(()=>{count++;if(finished||!screen.isConnected)return;find("#loadBar").setAttribute("aria-valuenow",count);find("#loadBar i").style.width=(count/todo.length*100)+"%";find("#loadCount").textContent=`已載入 ${count} / ${todo.length} 張圖片`;if(count===todo.length)setTimeout(finish,180)}))}
 const prologueScenes=[
  {phase:"半夜的怪事",title:"故事正在消失",symbol:"🏛️",body:`<p>博物館關門後，只剩修復室還亮著燈。館裡有八件重要文物。它們記錄了臺灣的位置、環境和歷史，也記錄了不同人群的生活故事。</p><p>半夜十二點，展示櫃突然失去光芒。地圖上的航線消失了，地形模型被翻亂，季風曆也停止運作。文物旁的說明文字，慢慢變成一團黑霧。</p>`},
  {phase:"抹除者出現",title:"牠只想留下一個答案",symbol:"🌫️",body:`<p>黑霧變成一個人影，牠叫做「抹除者」。牠常看到人們因為想法不同而爭吵。於是牠認為，只要刪掉不同的說法，大家就不會再吵架。</p><div class="story-quote"><b>抹除者：</b>「地圖只要一條路，歷史只要一個答案。其他說法全都不需要！」</div><p>牠把八件重要文物分散到八個地方。每少一件文物，人們就會忘記一部分臺灣的故事。</p>`},
@@ -576,7 +597,7 @@ function prepare(n){
   const itemCount=document.querySelector("#itemCount");itemCount.textContent=`已選 ${state.selectedItems.length} / ${limit}`;itemCount.classList.toggle("ready",state.selectedItems.length>0);
   go.disabled=state.selectedItems.length===0;go.textContent=go.disabled?"請先選擇道具":"帶著道具出發";
  });
- document.querySelector("#back").onclick=showMap;go.onclick=startExplore;
+ document.querySelector("#back").onclick=showMap;go.onclick=()=>loadImages(levelImages(n),`正在前往第 ${n} 關・${l.title}`,()=>{startExplore();if(n<8)levelImages(n+1).forEach(preloadImage)});
 }
 function startExplore(){state.clues.clear();renderExplore()}
 const explorePlaces=[
@@ -862,7 +883,7 @@ function showReward(){const l=levels[state.level-1],n=String(state.level).padSta
 function showFinal(){const name=esc(guardianName());render(`<section class="screen"><div class="eyebrow">合・守護行動完成</div><h2>${name}，八件文物都回來了</h2><div class="finale"><p>${name}答對最後一題後，金色的光照亮整座博物館。古航海圖重新畫出航線，地形模型恢復原狀，季風曆也再次開始運作。八件文物回到展櫃，一起說出臺灣的故事。</p><p>黑霧慢慢散去。抹除者變回一張老舊的資料卡，上面寫著：「把所有資料分成同一類。」</p><div class="story-quote"><b>抹除者：</b>「我以為刪掉不同的說法，就不會有人爭吵。可是這些不同的線索，為什麼可以拼成一個完整故事？」</div><p><b>檔檔回答：</b>「因為每一份資料都只能告訴我們一部分事情。把地圖、文物、環境和人的記憶放在一起，我們才能更了解過去。」</p><p>${name}把一張空白資料卡交給抹除者，請牠不要再刪除故事，而是好好記下資料從哪裡來。抹除者點點頭，為自己取了新名字：<b>「故事記錄員」</b>。</p></div><div class="ending-grid"><article class="ending-card"><div class="big" aria-hidden="true">🌊</div><h3>海洋帶來交流</h3><p>臺灣四面環海。海洋不只把地方隔開，也能讓人、物品和文化互相交流。</p></article><article class="ending-card"><div class="big" aria-hidden="true">🌿</div><h3>環境影響生活</h3><p>地形、氣候和資源會影響人們住在哪裡、做什麼工作，以及如何保護環境。</p></article><article class="ending-card"><div class="big" aria-hidden="true">📚</div><h3>線索幫助我們了解過去</h3><p>文物和歷史資料都很重要。比較不同線索，能讓我們看見更完整的故事。</p></article></div><div class="epilogue"><h3>尾聲・${name}的新守護任務</h3><p>博物館重新開門後，展牌旁多了一個問題：「${name}還想知道誰的故事？」孩子們開始提問，長輩分享回憶，研究人員也繼續尋找新的資料。大家一起讓故事變得更完整。</p><p>檔檔把守護者徽章送給${name}。牠說：「遊戲雖然結束了，守護任務還沒有結束。當${name}願意查清楚一段消息、尊重不同想法，或保護自然與文物時，${name}就是真正的守護員。」</p><div class="vow"><b>${name}的守護員誓詞</b><br>我會查清楚資料，聽聽不同的想法；<br>珍惜自然和文物，並用行動保護它們。</div></div><div class="feedback-box"><h3>請留下試玩回饋</h3><p>可以選擇多個答案。資料只會保存在這台瀏覽器。</p><div class="feedback-buttons">${[["readable","文字容易理解"],["fun","我願意繼續玩"],["long","有些內容太長"],["hard","有些題目太難"]].map(x=>`<button class="secondary ${state.feedback[x[0]]?"chosen":""}" data-f="${x[0]}" aria-pressed="${!!state.feedback[x[0]]}">${x[1]}</button>`).join("")}</div><p id="thanks" aria-live="polite"></p></div><div class="row" style="margin-top:22px"><button class="secondary" id="map">回到關卡地圖</button><button class="primary" id="replay">再次觀看結局</button></div></section>`);document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const k=b.dataset.f;state.feedback[k]=!state.feedback[k];b.classList.toggle("chosen",state.feedback[k]);b.setAttribute("aria-pressed",String(state.feedback[k]));save();document.querySelector("#thanks").textContent="謝謝！你的回饋已記錄。"});document.querySelector("#map").onclick=showMap;document.querySelector("#replay").onclick=showFinal}
 function selfCheck(){const errors=[];if(levels.length!==8)errors.push("關卡不是 8 關");levels.forEach((l,i)=>{if(l.qs.length!==10)errors.push(`第 ${i+1} 關題庫不是 10 題`);if(new Set(l.qs.map(q=>q[0])).size!==l.qs.length)errors.push(`第 ${i+1} 關有重複題目`);if(l.spots.length!==2)errors.push(`第 ${i+1} 關探索點錯誤`);l.qs.forEach((q,j)=>{if(q[1].length!==4||q[2]<0||q[2]>3)errors.push(`第 ${i+1}-${j+1} 題格式錯誤`)});const count=questionsForLevel(i+1),sample=drawQuestionIndexes(l.qs.length,i,count);if(count!==difficulties[i].enemy||sample.length!==count||new Set(sample).size!==count)errors.push(`第 ${i+1} 關抽題數量或重複檢查錯誤`)});difficulties.forEach((d,i)=>{if(i&&d.enemy<difficulties[i-1].enemy)errors.push("敵人血量未逐關提高");if(i&&d.attack<difficulties[i-1].attack)errors.push("敵人攻擊未逐關提高");if(d.attack<1||d.hearts<=d.attack)errors.push(`第 ${i+1} 關平衡值錯誤`)});if(difficulties.at(-1).attack!==4)errors.push("最終關攻擊力不是 4");if(randomEvents.length!==15||new Set(randomEvents.map(e=>e.id)).size!==15)errors.push("隨機事件不是 15 種唯一事件");if(Math.abs(Object.values(EVENT_WEIGHTS).reduce((a,b)=>a+b,0)-1)>.0001)errors.push("事件比例總和不是 100%");if(!eventPlanIsValid(state.eventPlan))errors.push("每局事件排程不是 3 至 5 次唯一事件");if(document.querySelectorAll(".feedback-box").length)errors.push("回饋不應出現在初始畫面");console.info(errors.length?errors:"Self-check passed: HP-scaled unique questions, 15 events, 3-5 event battles.");return errors}
 document.querySelector("#largeBtn").onclick=()=>{const large=document.body.classList.toggle("large"),button=document.querySelector("#largeBtn");button.textContent=large?"一般文字":"放大文字";button.setAttribute("aria-pressed",String(large))};document.querySelector("#homeBtn").onclick=()=>state.playerName?showMap():showTitle();document.querySelector("#titleBtn").onclick=showTitle;
-ensureEventPlan();selfCheck();const debug=+params.get("level");if(debug>=1&&debug<=8){state.unlocked=8;prepare(debug)}else if(params.has("map")){state.playerName?showMap():showTitle()}else showPrologue(0);
+ensureEventPlan();selfCheck();loadImages(coreImages,"正在準備守護行動",()=>{const debug=+params.get("level");if(debug>=1&&debug<=8){state.unlocked=8;prepare(debug)}else if(params.has("map")){state.playerName?showMap():showTitle()}else showPrologue(0)});
 </script>
 </body>
 </html>
