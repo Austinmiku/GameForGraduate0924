@@ -4,7 +4,9 @@
 
 ## 開始遊玩
 
-下載 repository 後，以瀏覽器開啟 `index.html`，或直接開啟 `歷史文物守護行動完整版.html`。
+線上版：<https://gameforgraduate0924.web.app>
+
+也可以在自己的電腦上玩：下載 repository 後，以瀏覽器開啟 `index.html`，或直接開啟 `歷史文物守護行動完整版.html`。
 
 遊戲不需要安裝套件或連線到伺服器。
 
@@ -17,6 +19,29 @@ python tools/export-question-bank.py "../歷史文物守護行動_完整題庫.x
 ```
 
 轉換工具會檢查八關各十題、正確選項及答案內容，再更新 `question-bank.js`。遊戲不會直接讀取 Excel 檔。
+
+## 部署到線上
+
+線上版放在 Firebase Hosting，專案 ID 是 `gameforgraduate0924`（記錄在 `.firebaserc`）。
+
+第一次在一台電腦上部署前，先安裝 Firebase CLI 並登入管理這個專案的 Google 帳號：
+
+```powershell
+npm install -g firebase-tools
+firebase.cmd login
+```
+
+之後每次改完檔案，在專案資料夾執行下面這行就會更新線上版本：
+
+```powershell
+firebase.cmd deploy --only hosting
+```
+
+在 PowerShell 裡請用 `firebase.cmd`；直接打 `firebase` 可能會被系統的指令碼執行原則擋下。改用命令提示字元（cmd）則可以直接打 `firebase`。
+
+上傳的範圍由 `firebase.json` 決定，只包含遊戲執行需要的檔案：兩個 HTML、`question-bank.js`、`assets` 裡的 webp 圖片與字型。企劃文件、PNG 原圖、`tools`、`docs`、`openspec`、檢查腳本與美術提示詞檔都不會上傳。新增遊戲會用到的其他類型檔案時，記得確認它沒有被 `firebase.json` 的 `ignore` 排除。
+
+部署的是資料夾裡目前的檔案，不是 git 上的版本，所以部署前後記得 commit，讓線上版和 repository 保持一致。
 
 ## 內容
 
