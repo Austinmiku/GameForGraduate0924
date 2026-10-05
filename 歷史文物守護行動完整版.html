@@ -434,17 +434,11 @@
     .bt-rain{position:absolute;width:3px;height:24px;border-radius:3px;background:linear-gradient(#bfe6ff00,#bfe6ff)}
     .bt-shard{position:absolute;width:14px;height:10px;clip-path:polygon(0 0,100% 30%,70% 100%,10% 80%);box-shadow:0 0 6px #6fe3ef}
     .bt-sealflash{position:absolute;width:280px;height:9px;border-radius:9px;background:linear-gradient(90deg,transparent,#e6ffff,#6fe3ef,#e6ffff,transparent);box-shadow:0 0 26px #6fe3ef}
-    .bt-weave{position:absolute;clip-path:ellipse(50% 50% at 50% 50%);background:repeating-linear-gradient(90deg,#a94330 0 16px,#E7AE43 16px 24px,#28735B 24px 40px,#087A98 40px 48px,#fff4dd 48px 51px);filter:brightness(1.15)}
-    .bt-weave:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 26px 14px #0b1824cc;background:repeating-linear-gradient(45deg,transparent 0 9px,#fff4dd66 9px 11px,transparent 11px 20px),repeating-linear-gradient(-45deg,transparent 0 9px,#17344855 9px 11px,transparent 11px 20px)}
-    .bt-puddle{position:absolute;height:46px;border-radius:50%;background:radial-gradient(closest-side,#05080e,#05080ecc 60%,transparent)}
-    .bt-drip{position:absolute;width:11px;height:24px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#05080e;transform-origin:top}
     .bt-hand{position:absolute;width:5px;border-radius:4px;background:linear-gradient(#fff3c4,#c7832d);box-shadow:0 0 10px #ffd36b;transform-origin:50% 100%}
     .bt-hand.short{width:7px}
     .bt-clockglow{position:absolute;border-radius:50%;background:radial-gradient(circle,#ffe08aaa,#6fe3ef44 55%,transparent 70%)}
     .bt-ripple{position:absolute;height:46px;border-radius:50%;border:3px solid #6fe3efcc;box-shadow:0 0 14px #6fe3ef88}
-    .bt-strip{position:absolute;height:12px;background:linear-gradient(180deg,#fbf3df,#dcc8a0);box-shadow:0 2px 5px #0008;border-radius:40% 8% 40% 8%/50%;transform-origin:50% 50%}
-    .bt-card{position:absolute;width:118px;height:80px;padding:12px;box-sizing:border-box;background:#fffaf0;border:2px solid #e7ae43;border-radius:6px;box-shadow:0 0 32px #ffe08acc;display:grid;gap:9px;align-content:center}
-    .bt-card i{display:block;height:5px;border-radius:3px;background:#c9b384}.bt-card i:first-child{width:60%;background:#173448}
+    .bt-sand{position:absolute;width:4px;height:4px;border-radius:50%;background:#e2cf9f;box-shadow:0 0 4px #e7c98088;pointer-events:none}
 
     /* 主角戰敗動畫 */
     .bt-tipglow{position:absolute;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#fff6d0 0 18%,#ffd36b 38%,#e7ae4355 60%,transparent 72%)}
@@ -723,13 +717,8 @@ const DEATH_FX={
  5:async(sp,R,cx,cy)=>{for(let i=0;i<16;i++){const a=rnd(0,Math.PI*2),d=rnd(140,230),b=mk("bt-shard",{left:(cx+Math.cos(a)*d)+"px",top:(cy+Math.sin(a)*d*.8)+"px",background:i%3?"#b5653a":"#6fe3ef"});anim(b,[{transform:`translate(-50%,-50%) rotate(${rnd(0,360)}deg)`,opacity:0},{opacity:1,offset:.2},{transform:`translate(calc(-50% + ${-Math.cos(a)*d}px),calc(-50% + ${-Math.sin(a)*d*.8}px)) rotate(${rnd(360,720)}deg) scale(.3)`,opacity:0}],{duration:950,delay:rnd(0,320),easing:"cubic-bezier(.6,0,.9,.6)"})}
   anim(sp,[{transform:"scale(1) rotate(0deg)",filter:"brightness(1)",clipPath:"inset(0% 0% 0% 0%)"},{transform:"scale(.82) rotate(-4deg)",filter:"brightness(1.5) drop-shadow(0 0 20px #6fe3ef)",clipPath:"inset(0% 0% 0% 0%)",offset:.45},{transform:"scale(.8) rotate(-4deg)",filter:"brightness(2.2) drop-shadow(0 0 30px #6fe3ef)",clipPath:"inset(50% 0% 50% 0%)"}],{duration:1400,easing:"ease-in"});
   await wait(1350);sfxPlay("block");const f=mk("bt-sealflash",{left:cx+"px",top:cy+"px"});anim(f,[{transform:"translate(-50%,-50%) scaleX(.1)",opacity:1},{transform:"translate(-50%,-50%) scaleX(1.4)",opacity:1,offset:.4},{transform:"translate(-50%,-50%) scaleX(1.8) scaleY(.2)",opacity:0}],{duration:650});await wait(550)},
- /* E6 單一化墨團：融成一灘墨，露出被蓋住的彩色織紋 */
- 6:async(sp,R,cx)=>{sp.style.transformOrigin="50% 100%";const weave=mk("bt-weave",{left:cx+"px",top:(R.y+R.h*.74)+"px",width:(R.w*.85)+"px",height:(R.h*.4)+"px",opacity:"0"});
-  anim(sp,[{transform:"scale(1,1)",filter:"blur(0px)"},{transform:"scale(1.1,.86)",offset:.3},{transform:"scale(1.3,.36) translateY(6%)",filter:"blur(1px)",offset:.75},{transform:"scale(1.45,.08) translateY(16%)",filter:"blur(3px)"}],{duration:1300,easing:"ease-in"});
-  for(let i=0;i<10;i++){const d=mk("bt-drip",{left:(R.x+R.w*rnd(.2,.8))+"px",top:(R.y+R.h*rnd(.4,.7))+"px"});anim(d,[{transform:"scaleY(.4)",opacity:1},{transform:`translateY(${R.h*.3}px) scaleY(1.5)`,opacity:0}],{duration:rnd(600,900),delay:rnd(100,700),easing:"ease-in"})}
-  const pud=mk("bt-puddle",{left:cx+"px",top:(R.y+R.h*.94)+"px",width:(R.w*.95)+"px"});anim(pud,[{transform:"translate(-50%,-50%) scale(.3)",opacity:0},{transform:"translate(-50%,-50%) scale(1)",opacity:1,offset:.6},{transform:"translate(-50%,-50%) scale(1.1,1)",opacity:1}],{duration:1300});
-  await wait(1200);anim(sp,[{opacity:1},{opacity:0}],{duration:300});sfxPlay("heal");
-  anim(weave,[{transform:"translate(-50%,-50%) scale(.6)",opacity:0},{transform:"translate(-50%,-50%) scale(1)",opacity:1,offset:.35},{transform:"translate(-50%,-50%) scale(1)",opacity:1,offset:.8},{transform:"translate(-50%,-62%) scale(1.05)",opacity:0}],{duration:1600});anim(pud,[{opacity:1},{opacity:0}],{duration:900,delay:300});await wait(1300)},
+ /* E6 單一化墨團：往下融化並淡出 */
+ 6:async sp=>{sp.style.transformOrigin="50% 100%";anim(sp,[{transform:"scale(1,1)",filter:"blur(0px)",opacity:1},{transform:"scale(1.1,.86)",opacity:1,offset:.3},{transform:"scale(1.3,.36) translateY(6%)",filter:"blur(1px)",opacity:.75,offset:.75},{transform:"scale(1.45,.08) translateY(16%)",filter:"blur(3px)",opacity:0}],{duration:1500,easing:"ease-in"});await wait(1600)},
  /* E7 時序海怪：時鐘指針倒轉，縮小後沉入漣漪 */
  7:async(sp,R,cx)=>{const ck={x:R.x+R.w*.28,y:R.y+R.h*.25},glow=mk("bt-clockglow",{left:ck.x+"px",top:ck.y+"px",width:(R.w*.26)+"px",height:(R.w*.26)+"px"});
   const hands=[0,1].map(i=>mk("bt-hand"+(i?" short":""),{left:ck.x+"px",top:ck.y+"px",height:(R.w*(i?.05:.08))+"px"}));
@@ -737,12 +726,12 @@ const DEATH_FX={
   hands.forEach((h,i)=>anim(h,[{transform:"translate(-50%,-100%) rotate(0deg)",opacity:1},{transform:`translate(-50%,-100%) rotate(${i?-720:-1440}deg)`,opacity:1,offset:.8},{transform:`translate(-50%,-100%) rotate(${i?-760:-1500}deg)`,opacity:0}],{duration:1400,easing:"cubic-bezier(.3,0,.7,1)"}));sfxPlay("charge");
   await wait(550);sp.style.transformOrigin="50% 85%";anim(sp,[{transform:"scale(1) translateY(0) rotate(0deg)",opacity:1,filter:"brightness(1)"},{transform:"scale(.75) translateY(4%) rotate(-10deg)",opacity:1,offset:.4},{transform:"scale(.3) translateY(34%) rotate(-25deg)",opacity:0,filter:"brightness(.7)"}],{duration:1200,easing:"ease-in"});
   await wait(750);for(let i=0;i<3;i++){const r=mk("bt-ripple",{left:cx+"px",top:(R.y+R.h*.9)+"px",width:(R.w*.8)+"px"});anim(r,[{transform:"translate(-50%,-50%) scale(.2)",opacity:.9},{transform:"translate(-50%,-50%) scale(1.3)",opacity:0}],{duration:1100,delay:i*220})}await wait(1150)},
- /* E8 抹除者：紙條纏繞全身，褪成一張白色資料卡 */
- 8:async(sp,R,cx,cy)=>{sp.style.transformOrigin="50% 60%";const angs=[-20,14,-9,17,-5],strips=angs.map((a,i)=>mk("bt-strip",{left:(cx+(i%2?R.w*.04:-R.w*.04))+"px",top:(R.y+R.h*(.2+i*.14))+"px",width:(R.w*(i===0||i===4?.42:.58))+"px"}));
-  strips.forEach((s,i)=>anim(s,[{transform:`translate(-50%,-50%) rotate(${angs[i]}deg) scaleX(0)`,opacity:1},{transform:`translate(-50%,-50%) rotate(${angs[i]}deg) scaleX(1)`,opacity:1}],{duration:450,delay:i*110,easing:"cubic-bezier(.2,.8,.3,1)"}));
-  anim(sp,[{filter:"grayscale(0) brightness(1)",transform:"scale(1)"},{filter:"grayscale(1) sepia(.3) brightness(1.7)",transform:"scale(.95)"}],{duration:900,delay:300});
-  await wait(1100);anim(sp,[{transform:"scale(.95)",opacity:1},{transform:"scale(.2)",opacity:0}],{duration:600,easing:"ease-in"});strips.forEach(s=>anim(s,[{opacity:1},{opacity:0}],{duration:500}));sfxPlay("block");
-  const card=mk("bt-card",{left:cx+"px",top:cy+"px"});card.innerHTML="<i></i><i></i><i></i>";anim(card,[{transform:"translate(-50%,-50%) scale(.2) rotate(-20deg)",opacity:0},{transform:"translate(-50%,-50%) scale(1.12) rotate(4deg)",opacity:1,offset:.6},{transform:"translate(-50%,-50%) scale(1) rotate(0deg)",opacity:1}],{duration:700,delay:250,easing:"cubic-bezier(.2,.9,.3,1.2)"});await wait(1300)}
+ /* E8 抹除者：由上而下碎成細沙，被風吹起後逐漸消散 */
+ 8:async(sp,R)=>{const cols=18,rows=18,ts=deathTiles(cols,rows);
+  if(ts.length)sp.style.opacity="0";else anim(sp,[{opacity:1,filter:"blur(0px)"},{opacity:0,filter:"blur(6px)"}],{duration:1800,easing:"ease-in"});
+  ts.forEach(t=>{const c=+t.dataset.c,r=+t.dataset.r;anim(t,[{transform:"translate(0,0) scale(1)",borderRadius:"0%",opacity:1},{transform:`translate(${rnd(6,22)}px,${rnd(-12,4)}px) scale(.7)`,borderRadius:"50%",opacity:1,offset:.25},{transform:`translate(${rnd(40,170)}px,${rnd(-180,-40)}px) scale(.15)`,borderRadius:"50%",opacity:0}],{duration:rnd(1100,1700),delay:r*55+(cols-1-c)*10+rnd(0,160),easing:"cubic-bezier(.3,0,.7,1)"})});
+  for(let i=0;i<70;i++){const y=rnd(0,1),g=mk("bt-sand",{left:(R.x+R.w*rnd(.1,.9))+"px",top:(R.y+R.h*y)+"px"});anim(g,[{transform:"translate(0,0)",opacity:0},{opacity:.9,offset:.2},{transform:`translate(${rnd(60,220)}px,${rnd(-200,-40)}px)`,opacity:0}],{duration:rnd(1200,2000),delay:y*rows*55+rnd(0,300),easing:"ease-out"})}
+  await wait(2800)}
 };
 async function playDeath(n){const foe=$b("#foe"),sp=foe&&foe.querySelector(".foe-sprite");if(!sp)return;foe.classList.remove("charging","hit","lunge");sp.style.animation="none";const R=stageRect(sp),cx=R.x+R.w/2,cy=R.y+R.h/2,shadow=foe.querySelector(".bt-shadow");anim(shadow,[{opacity:.5},{opacity:0}],{duration:1200});
  const fn=DEATH_FX[n];if(fn)await fn(sp,R,cx,cy);else{foe.classList.add("collapse");await wait(1100)}sp.style.opacity="0"}
@@ -798,7 +787,7 @@ async function playFinisher(dmg,back){const stage=$b(".bt-stage"),foe=$b("#foe")
  const lines=mk("bt-fin-lines");lines.style.setProperty("--cx",core.x+"px");lines.style.setProperty("--cy",core.y+"px");anim(lines,[{opacity:0,transform:"scale(1.2)"},{opacity:1,transform:"scale(1)"}],{duration:1400});
  const cap=mk("bt-fin-caption");cap.textContent="最後一擊！";anim(cap,[{opacity:0,letterSpacing:".8em"},{opacity:1,letterSpacing:".18em"}],{duration:900});
  const ghosts=setInterval(()=>{const r=stageRect(shot),g=mk("bt-fin-ghost",{left:(r.x+r.w/2)+"px",top:(r.y+r.h/2)+"px"});shot.before(g);anim(g,[{opacity:.7,transform:"scale(1)"},{opacity:0,transform:"scale(.4)"}],{duration:700});setTimeout(()=>g.remove(),720)},90);
- await wait(1400);clearInterval(ghosts);timeScale(1);fly.updatePlaybackRate(1.7);await fly.finished.catch(()=>{});
+ await wait(1400);clearInterval(ghosts);timeScale(1);fly.updatePlaybackRate(1.7);await Promise.race([fly.finished.catch(()=>{}),wait(600)]);
  /* 4 命中：白光一閃，時間恢復 */
  shot.remove();lines.remove();cap.remove();dim.cancel();stage.classList.remove("cine");bars.forEach((b,i)=>{anim(b,[{transform:"none"},{transform:`translateY(${i?100:-100}%)`}],{duration:300});setTimeout(()=>b.remove(),320)});
  const white=mk("bt-fin-white");anim(white,[{opacity:1},{opacity:1,offset:.35},{opacity:0}],{duration:520});setTimeout(()=>white.remove(),540);
