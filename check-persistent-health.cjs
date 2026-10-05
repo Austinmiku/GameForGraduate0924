@@ -26,3 +26,12 @@ assert.equal(JSON.parse(stored).hp, 3);
 assert.deepEqual(Array.from(vm.runInContext('[kitHeal(1),kitHeal(4),kitHeal(7)]', context)), [1, 2, 3]);
 assert.equal(vm.runInContext('itemEffect("kit",8)', context), '回復 3 顆守護心。');
 console.log('Persistent guardian hearts passed');
+
+vm.runInContext('let mapVisits=0,rewards=0;showMap=()=>mapVisits++;showReward=()=>rewards++;state.enemy=1;state.hp=0;nextTurn()', context);
+assert.equal(vm.runInContext('mapVisits', context), 1);
+assert.equal(vm.runInContext('state.hp', context), 0);
+vm.runInContext('state.hp=2;state.qi=0;state.deck=[];nextTurn()', context);
+assert.equal(vm.runInContext('mapVisits', context), 2);
+vm.runInContext('state.enemy=0;nextTurn()', context);
+assert.equal(vm.runInContext('rewards', context), 1);
+console.log('Battle defeat returns directly to map');
