@@ -457,6 +457,10 @@
     .bt-defeat-banner b{display:block;font:900 clamp(1.6rem,4vw,2.5rem)/1.2 "Game Noto Serif TC","Noto Serif TC","PMingLiU",serif;color:#ffb7a5;text-shadow:0 0 18px #a94330,0 3px 0 #000}
     .bt-defeat-banner small{display:block;margin-top:4px;font-size:clamp(.82rem,1.6vw,1rem);font-weight:800;color:#f2e6d0;letter-spacing:.08em}
 
+    /* 遊戲專用羅盤鼠標：一般狀態朝左上，按鈕懸停狀態朝右下並顯示金色光暈 */
+    html,body,body *{cursor:url("assets/cursor-compass.png") 2 2,auto!important}
+    button:not(:disabled):not([aria-disabled="true"]),a[href],[role="button"]:not([aria-disabled="true"]){cursor:url("assets/cursor-compass-hover.png") 2 2,pointer!important}
+
     /* 一般功能按鈕：保留原配色，統一加入滑入／鍵盤高亮與按下漣漪 */
     button.action-effect{position:relative;isolation:isolate;overflow:hidden;transition:transform .16s ease,background-color .16s ease,box-shadow .16s ease,filter .16s ease}
     button.action-effect:hover:not(:disabled):not([aria-disabled="true"]),button.action-effect:focus-visible{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 5px 0 #684032,0 0 0 4px #f2c56570,0 0 22px #efb94d99}
